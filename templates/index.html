@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Toxic Comment Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <h1>Toxic Comment Classifier</h1>
+        <p class="subtitle">Exact-match lookup first — model prediction fallback</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <form method="post" action="/predict" class="form">
+          <label for="text" class="label">Enter comment to classify</label>
+          <textarea id="text" name="text" rows="6" placeholder="Type or paste a comment...">{{ request.values.get('text','') }}</textarea>
+          <div class="actions">
+            <button class="btn-primary" type="submit">Classify</button>
+            <button class="btn-ghost" type="button" onclick="document.getElementById('text').value=''">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      {% if result %}
+      <section class="card result">
+        <div class="result-header">
+          <h2>Result</h2>
+          <div class="match">Exact match: <strong>{{ result.match }}</strong></div>
+        </div>
+        <div class="labels">
+          {% for k, v in result.labels.items() %}
+            <div class="label-row">
+              <div class="label-name">{{ k.replace('_', ' ').title() }}</div>
+              {% if v|int == 1 %}
+                <div class="badge on">Yes</div>
+              {% else %}
+                <div class="badge off">No</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      <footer class="footer">Model: TF-IDF + One-vs-Rest LogisticRegression • Saved lookup priority</footer>
+    </main>
+
+  </body>
+</html>
