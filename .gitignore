@@ -27,3 +27,8 @@ models/transformer_model/
 
 # Logs and local files
 *.log
+
+# Data (keep small samples tracked, ignore large datasets)
+data/*
+!data/comments_sample.csv
+!data/README.md

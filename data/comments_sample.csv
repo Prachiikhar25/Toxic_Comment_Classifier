@@ -1,0 +1,25 @@
+comment_text,toxic,severe_toxic,obscene,threat,insult,identity_hate
+I really appreciate your help,0,0,0,0,0,0
+You are doing great,0,0,0,0,0,0
+This is not good at all,1,0,0,0,0,0
+Please stop bothering me,0,0,0,0,0,0
+You're being unfair,0,0,0,0,0,0
+That was a terrible idea,1,0,0,0,0,0
+You are so annoying,1,0,0,0,1,0
+I completely disagree with you,0,0,0,0,0,0
+This makes no sense,0,0,0,0,0,0
+What a loser,1,0,0,0,1,0
+You are dumb,1,0,0,0,1,0
+Great job everyone,0,0,0,0,0,0
+Kindly reconsider your approach,0,0,0,0,0,0
+That comment was rude,1,0,0,0,0,0
+You're a fool,1,0,0,0,1,0
+Thanks for the clarification,0,0,0,0,0,0
+This is excellent work,0,0,0,0,0,0
+Please be respectful,0,0,0,0,0,0
+Stop acting childish,1,0,0,0,1,0
+I like this solution,0,0,0,0,0,0
+You messed this up,1,0,0,0,0,0
+Calm down and listen,0,0,0,0,0,0
+You're so careless,1,0,0,0,1,0
+Well done,0,0,0,0,0,0

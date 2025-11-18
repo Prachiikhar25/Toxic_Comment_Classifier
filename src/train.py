@@ -1,15 +1,22 @@
 """Train a multi-label classifier and create an exact-match lookup.
 
 Usage:
-    python src/train.py
+        python src/train.py [--csv PATH] [--out MODEL_PATH]
 
-The script expects a CSV at `data/comments.csv` with columns:
-  - comment_text
-  - toxic,severe_toxic,obscene,threat,insult,identity_hate
+CSV columns required:
+    - comment_text
+    - toxic,severe_toxic,obscene,threat,insult,identity_hate
 
-It will save a model bundle to `models/model.joblib`.
+CSV selection order (lowest friction first):
+    1) CLI arg --csv
+    2) Env var DATA_CSV_PATH
+    3) `data/comments_sample.csv` if it exists
+    4) Fallback to `data/comments.csv`
+
+Outputs a model bundle to `models/model.joblib` by default.
 """
 import os
+import argparse
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -66,4 +73,15 @@ def main(csv_path='data/comments.csv', model_out='models/model.joblib'):
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Train toxic comment classifier with exact-match lookup')
+    parser.add_argument('--csv', dest='csv_path', default=None, help='Path to input CSV')
+    parser.add_argument('--out', dest='model_out', default='models/model.joblib', help='Output model bundle path')
+    args = parser.parse_args()
+
+    chosen_csv = (
+        args.csv_path
+        or os.environ.get('DATA_CSV_PATH')
+        or ('data/comments_sample.csv' if os.path.exists('data/comments_sample.csv') else None)
+        or 'data/comments.csv'
+    )
+    main(csv_path=chosen_csv, model_out=args.model_out)

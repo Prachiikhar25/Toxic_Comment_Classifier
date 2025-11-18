@@ -29,13 +29,22 @@ python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-3. Place your dataset at `data/comments.csv`. It must have columns:
-   `comment_text,toxic,severe_toxic,obscene,threat,insult,identity_hate`
+3. A tiny sample dataset is provided at `data/comments_sample.csv` for smoke tests.
+   If you have a full dataset, place it anywhere (e.g. `data/comments.csv`, which is git-ignored) with columns:
+   `comment_text,toxic,severe_toxic,obscene,threat,insult,identity_hate`.
 
-4. Train the model and build the exact-match lookup:
+4. Train the model and build the exact-match lookup (by default uses `data/comments_sample.csv` if it exists):
 
 ```powershell
+# default (prefers sample):
 python src/train.py
+
+# explicitly choose a CSV:
+python src/train.py --csv data/comments_sample.csv
+python src/train.py --csv data/comments.csv
+
+# or via env var:
+$env:DATA_CSV_PATH = "data/comments.csv"; python src/train.py
 ```
 
 5. Run the Flask app:
@@ -51,8 +60,13 @@ Behavior notes:
 - If the normalized input exactly matches a normalized comment from your CSV, the app returns the labels from the CSV (exact-match lookup) — this respects your requirement to classify sentences according to the provided data first.
 - If there is no exact match, the trained model is used to predict labels.
 
+Data notes:
+
+- The repo tracks only small samples to keep it lightweight.
+- Place your large/full dataset locally (e.g., under `data/`) — it will be ignored by git.
+
 Next steps / improvements:
 
 - Add model persistence path customization via env vars/CLI args.
 - Add more preprocessing (lemmatization) if desired.
-- Add unit tests and a small example `data/comments.csv` subset for smoke tests.
+- Add unit tests and keep the sample small but representative for smoke tests.
